@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container">
+    <h2>Search Songs</h2>
+    <form method="GET" action="{{ url_for('auth.search') }}">
+        <input type="text" name="q" placeholder="Search for songs or artists" value="{{ query }}" required>
+        <button type="submit">Search</button>
+    </form>
+
+    {% if results %}
+        <h3>Results for "{{ query }}":</h3>
+        <ul class="search-results">
+        {% for song in results %}
+            <li class="search-result-item">
+                <a href="{{ url_for('auth.song_detail', song_id=song.id) }}">{{ song.title }}</a> by {{ song.artist }}
+            </li>
+        {% endfor %}
+        </ul>
+    {% elif query %}
+        <p>No results found for "{{ query }}".</p>
+    {% endif %}
+</div>
+{% endblock %}
